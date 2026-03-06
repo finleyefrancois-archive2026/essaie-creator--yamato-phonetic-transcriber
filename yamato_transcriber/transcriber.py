@@ -21,10 +21,18 @@ except ImportError:
 
 try:
     import torch
+    import torchaudio
     import speechbrain as sb
     SPEECHBRAIN_AVAILABLE = True
 except ImportError:
     SPEECHBRAIN_AVAILABLE = False
+except AttributeError:
+    # Fix for torchaudio compatibility issues in newer versions
+    import torchaudio
+    if not hasattr(torchaudio, 'list_audio_backends'):
+        torchaudio.list_audio_backends = lambda: ['soundfile', 'sox']
+    import speechbrain as sb
+    SPEECHBRAIN_AVAILABLE = True
 
 from .config import (
     SUPPORTED_LANGUAGES,
