@@ -1,11 +1,13 @@
-# Web app dependencies
-streamlit>=1.28.0
-# Core dependencies with pinned versions for compatibility
+# Web app dependencies for Streamlit Cloud
+streamlit==1.40.0
+
+# Core dependencies with compatible versions for Python 3.11-3.12
+# Note: Python 3.14 support is experimental
 speechbrain==1.0.0
-phonemizer>=3.2.0
-onnxruntime>=1.16.0
-numpy>=1.24.0,<2.0.0
-torch>=2.0.0,<2.5.0
-torchaudio>=2.0.0,<2.5.0
-librosa>=0.10.0
-soundfile>=0.12.0
+phonemizer==3.3.0
+onnxruntime==1.19.0
+numpy==1.26.4
+torch==2.4.0
+torchaudio==2.4.0
+librosa==0.10.2.post1
+soundfile==0.12.1
