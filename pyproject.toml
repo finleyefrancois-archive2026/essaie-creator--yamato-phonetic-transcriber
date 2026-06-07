@@ -1,0 +1,115 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yamato-phonetic-transcriber"
+version = "1.0.0"
+description = "A lightweight multilingual phonetic transcription application for low-resource environments"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Essaie Creator", email = "essaie.creator@example.com"}
+]
+keywords = ["phonetic", "transcription", "IPA", "speech", "NLP", "multilingual", "low-resource"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+requires-python = ">=3.8,<3.13"
+dependencies = [
+    "speechbrain>=1.0.0,<2.0.0",
+    "phonemizer>=3.3.0,<4.0.0",
+    "onnxruntime>=1.16.0,<2.0.0",
+    "numpy>=1.24.0,<2.0.0",
+    "torch>=2.0.0,<2.5.0",
+    "torchaudio>=2.0.0,<2.5.0",
+    "librosa>=0.10.0,<0.11.0",
+    "soundfile>=0.12.0,<0.13.0",
+]
+
+[project.optional-dependencies]
+gui = ["tk"]
+web = [
+    "streamlit>=1.28.0,<2.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/essaie-creator/yamato-phonetic-transcriber"
+Repository = "https://github.com/essaie-creator/yamato-phonetic-transcriber.git"
+Issues = "https://github.com/essaie-creator/yamato-phonetic-transcriber/issues"
+Documentation = "https://github.com/essaie-creator/yamato-phonetic-transcriber#readme"
+
+[project.scripts]
+yamato-transcribe = "yamato_transcriber.cli:main"
+yamato-gui = "yamato_transcriber.gui:launch_gui"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["yamato_transcriber*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "*.egg-info",
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = ["build/", "dist/", ".venv/"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --cov=yamato_transcriber --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["yamato_transcriber"]
+omit = ["*/tests/*", "*/__pycache__/*"]

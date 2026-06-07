@@ -1,80 +1,89 @@
 # Yamato Phonetic Transcriber
 
-A lightweight multilingual phonetic transcription application designed for low-resource environments.
+[![CI/CD](https://github.com/essaie-creator/yamato-phonetic-transcriber/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/essaie-creator/yamato-phonetic-transcriber/actions/workflows/ci-cd.yml)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Features
+A lightweight multilingual phonetic transcription application designed for low-resource environments with automatic language detection.
 
-- **🎯 Automatic Language Detection**: Just upload audio - the app detects the language automatically!
-- **Multilingual Support**: English (en), Spanish (es), French (fr), Japanese (ja), Haitian Creole (ht)
-- **IPA Output**: International Phonetic Alphabet transcription
-- **Low-Resource Optimized**: Uses ONNX runtime for efficient inference
-- **SpeechBrain Integration**: Advanced speech processing capabilities
-- **Phonemizer Backend**: Accurate text-to-phoneme conversion
-- **Graphical User Interface**: User-friendly Tkinter GUI for non-technical users
-- **Mobile App**: Native Android app for Huawei and other Android devices
+## 🌟 Features
 
-## Installation
+- **🎯 Automatic Language Detection**: Upload audio - AI detects the language automatically!
+- **🌍 Multilingual Support**: English, Spanish, French, Japanese, Haitian Creole
+- **📝 IPA Output**: International Phonetic Alphabet transcription
+- **⚡ Low-Resource Optimized**: ONNX runtime for efficient inference
+- **🧠 SpeechBrain Integration**: Advanced speech processing
+- **💬 Phonemizer Backend**: Accurate text-to-phoneme conversion with eSpeak
+- **🖥️ Multiple Interfaces**: CLI, Tkinter GUI, Streamlit web app
+- **📱 Mobile Ready**: Native Android app for all Android devices including Huawei
+- **🔧 Installable Package**: Available via pip (coming soon)
 
-### Desktop (Python)
+## 📦 Installation
+
+### From Source (Development)
 
 ```bash
+# Clone the repository
+git clone https://github.com/essaie-creator/yamato-phonetic-transcriber.git
+cd yamato-phonetic-transcriber
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+# Install with development dependencies
+pip install -e ".[dev]"
+
+# Or install just the core package
 pip install -r requirements.txt
 ```
 
-### Mobile (Android/Huawei)
-
-**Option 1: Download Pre-built APK**
-Download the latest APK from [Releases](https://github.com/essaie-creator/yamato-phonetic-transcriber/releases). Look for assets named `app-debug.apk` or `app-release-unsigned.apk`.
-
-**Option 2: Build from Source**
-See `mobile-android/README.md` and `mobile-android/BUILD.md` for detailed build instructions.
-
-### Automatic Builds via GitHub Actions
-
-This project uses GitHub Actions to automatically build and attach binaries to releases:
-
-- **Python packages**: Triggered by tags like `v1.0.0`, `v1.2.3-beta`
-- **Android APKs**: Triggered by tags like `v1.0.0-android`, `v1.2.3-mobile`
-
-To trigger a build, simply create and push a tag:
+### From PyPI (Coming Soon)
 
 ```bash
-# For Python release
-git tag v1.0.0
-git push origin v1.0.0
-
-# For Android release
-git tag v1.0.0-android
-git push origin v1.0.0-android
+pip install yamato-phonetic-transcriber
 ```
 
-GitHub will automatically build the project and attach the binaries to the release page.
+### Web App (Streamlit Cloud)
 
-## Usage
+Visit our live demo: [yamato-phonetic-transcriber.streamlit.app](https://yamato-phonetic-transcriber.streamlit.app)
 
-### Command Line
+### Mobile App (Android)
+
+**Download Pre-built APK:**
+Get the latest APK from [Releases](https://github.com/essaie-creator/yamato-phonetic-transcriber/releases).
+
+**Build from Source:**
+See [`mobile-android/README.md`](mobile-android/README.md) for detailed instructions.
+
+## 🚀 Usage
+
+### Command Line Interface
 
 ```bash
-# 🆕 Auto-detect language from audio (default)
+# Auto-detect language from audio (recommended)
+yamato-transcribe --audio input.wav
+
+# Or using python directly
 python transcribe.py --audio input.wav
 
 # Manually specify language
-python transcribe.py --audio input.wav --lang en
+yamato-transcribe --audio input.wav --lang es
 
 # Transcribe text to IPA
-python transcribe.py --text "Hello world" --lang en
+yamato-transcribe --text "Hello world" --lang en
 
 # Batch processing
-python transcribe.py --input-file texts.txt --output-file transcriptions.txt --lang es
+yamato-transcribe --input-file texts.txt --output-file transcriptions.txt --lang fr
 
 # Launch GUI
-python transcribe.py --gui
+yamato-gui
 ```
 
 ### Python API
 
 ```python
-from yamato_transcriber import PhoneticTranscriber, launch_gui
+from yamato_transcriber import PhoneticTranscriber
 
 # Initialize with auto-detection
 transcriber = PhoneticTranscriber(auto_detect_language=True)
@@ -84,45 +93,106 @@ phonemes, detected_lang = transcriber.audio_to_phonemes("audio.wav")
 print(f"Detected: {detected_lang}")  # e.g., 'es'
 print(f"Phonemes: {phonemes}")
 
-# Or manually specify language
+# Text to phonemes
 transcriber = PhoneticTranscriber(language='en')
 phonemes = transcriber.text_to_phonemes("Hello world")
 print(phonemes)  # /həˈloʊ wɜrld/
 
-# Launch GUI
-launch_gui()
+# Batch processing
+texts = ["Hello", "World"]
+results = transcriber.batch_transcribe(texts)
 ```
 
-### Mobile App
+### Web Interface
 
-See `mobile-android/README.md` for installation and usage instructions.
+Run locally:
+```bash
+streamlit run app.py
+```
 
-## Supported Languages
+Or use our hosted version on Streamlit Cloud.
+
+## 🌐 Supported Languages
 
 | Language | Code | Script | Auto-Detect |
 |----------|------|--------|-------------|
-| English | en | Latin | ✅ |
-| Spanish | es | Latin | ✅ |
-| French | fr | Latin | ✅ |
-| Japanese | ja | Kana/Kanji | ✅ |
-| Haitian Creole | ht | Latin | ✅ |
+| 🇺🇸 English | en | Latin | ✅ |
+| 🇪🇸 Spanish | es | Latin | ✅ |
+| 🇫🇷 French | fr | Latin | ✅ |
+| 🇯🇵 Japanese | ja | Kana/Kanji | ✅ |
+| 🇭🇹 Haitian Creole | ht | Latin | ✅ |
 
-🆕 **Automatic Language Detection**: The transcriber can now automatically detect the spoken language from audio files. See [AUTO_DETECT_LANGUAGE.md](AUTO_DETECT_LANGUAGE.md) for details.
+## 🏗️ Architecture
 
-## Architecture
+```
+yamato-phonetic-transcriber/
+├── yamato_transcriber/    # Core package
+│   ├── transcriber.py     # Main transcription engine
+│   ├── config.py          # Language configurations
+│   ├── cli.py             # Command-line interface
+│   └── gui.py             # Tkinter GUI
+├── app.py                 # Streamlit web app
+├── tests/                 # Test suite
+├── mobile-android/        # Android app
+└── .github/workflows/     # CI/CD pipelines
+```
 
-- **SpeechBrain**: Speech recognition and processing
-- **Phonemizer**: Text-to-phoneme conversion with eSpeak backend
-- **ONNX Runtime**: Optimized model inference
+**Key Technologies:**
+- **SpeechBrain**: ASR and language identification
+- **Phonemizer**: Text-to-phoneme with eSpeak
+- **ONNX Runtime**: Optimized inference
 - **PyTorch**: Deep learning backend
+- **Streamlit**: Web interface
 
-## Low-Resource Optimization
+## ⚡ Performance Optimizations
 
-- Quantized ONNX models for reduced memory footprint
+- Quantized ONNX models (50% smaller footprint)
 - Lazy loading of language models
-- Minimal dependencies for offline deployment
 - CPU-optimized inference
+- Minimal dependencies for offline use
+- Memory-efficient batch processing
 
-## License
+## 🧪 Testing
 
-MIT License
+```bash
+# Run all tests
+pytest tests/ -v
+
+# With coverage
+pytest tests/ -v --cov=yamato_transcriber
+
+# Run specific test file
+pytest tests/test_transcriber.py -v
+```
+
+## 🤝 Contributing
+
+We welcome contributions! See our [Contributing Guide](CONTRIBUTING.md) for details.
+
+```bash
+# Set up development environment
+pip install -e ".[dev]"
+pre-commit install
+
+# Run quality checks
+black yamato_transcriber/ tests/
+flake8 yamato_transcriber/ tests/
+mypy yamato_transcriber/
+pytest tests/
+```
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## 🙏 Acknowledgments
+
+- [SpeechBrain](https://speechbrain.github.io/) for ASR models
+- [eSpeak](http://espeak.sourceforge.net/) for phonemization
+- [ONNX Runtime](https://onnxruntime.ai/) for optimization
+
+## 📞 Support
+
+- 📧 Issues: [GitHub Issues](https://github.com/essaie-creator/yamato-phonetic-transcriber/issues)
+- 📖 Documentation: [Wiki](https://github.com/essaie-creator/yamato-phonetic-transcriber/wiki)
+- 💬 Discussions: [GitHub Discussions](https://github.com/essaie-creator/yamato-phonetic-transcriber/discussions)
